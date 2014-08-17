@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="nytSearch">
+	<head>
+		<meta charset="utf-8">
+		<title>NYT Article Search</title>
+		<link rel="stylesheet" href="css/bootstrap.css"/>
+		<link rel="stylesheet" href="css/bootstrap-theme.css"/>
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="shortcut icon" href="icon.png"/>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+		<!--Throw some AngularJS magic at it-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<!--And hey look, it's firebase-->
+		<script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
+		<script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js"></script>
+		<!--Then there's me-->
+		<script src="js/nytSearch.js"></script>
+	</head>
+
+	<body ng-controller='SearchController'>
+
+		<!--header-->
+		<div class="well container">
+			<div class="daicon">
+				<img src="icon.png" alt="New York Times" class="img-circle">
+			</div>
+
+			<!--Search form-->
+			<form role="form" name="newQueryForm">
+  				<div class="form-group" for="query">
+     				<input type="searchterm" class="form-control"
+     					ng-model="query.q">
+      				<span type="submit" class="btn"
+      					ng-click="search()">Search</span>
+  				</div>
+			</form>
+
+			<!--
+			Advanced Search filter options.
+			This still does nothing.
+			-->
+			<form class="searchFilter" ng-controller="MenuController">
+					<span ng-click="toggleMenu()"
+					class="advanced btn">Filter Your Results</span>
+					<div ng-hide="toggle"
+					class="options btn-group-vertical">
+						<span class="advanced btn">Date Published:</span>
+						<span class="advanced btn">News Desks:</span>
+						<span class="advanced btn">Type:</span>
+						<span class="advanced btn" id="contains">Contains:</span>
+						<input type="text" class="form-control" id="filter">
+					</div>
+			</form>
+			<form name="DateFilter"></form>
+			<form name="DeskFilter"></form>
+			<form name="TypeFilter"></form>
+			<form name="ContainsFilter"></form>
+		</div>
+
+		<!--Search results-->
+		<div class="panel panel-default">
+  			<div class="panel-heading">Results:</div>
+  			<!-- Table -->
+  			<table class="table table-bordered">
+    			<thead>
+      				<tr>
+        				<th>
+          				<a href="#" ng-click="orderByField='order'; reverseSort = !reverseSort">
+          				# <span ng-show="orderByField == 'order'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+        				</th>
+        				<th>
+          				<a href="#" ng-click="orderByField='title'; reverseSort = !reverseSort">
+            			Headline <span ng-show="orderByField == 'title'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+        				</th>
+        				<th ng-show="showDate">
+          				<a href="#" ng-click="orderByField='pubDate'; reverseSort = !reverseSort">
+          				Date Published <span ng-show="orderByField == 'pubDate'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+        				</th>
+        				<th ng-show="showDesk">
+          				<a href="#" ng-click="orderByField='newsDesk'; reverseSort = !reverseSort">
+          				News Desk <span ng-show="orderByField == 'newsDesk'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+        				</th>
+      				</tr>
+    			</thead>
+    			<tbody>
+      				<tr ng-repeat="result in results.docs|orderBy:orderByField:reverseSort">
+        			<td>{{$index + 1}}</td>
+        			<td>{{result.headline.main}}</td>
+        			<td ng-show="showDate">{{result.pub_date}}</td>
+        			<td ng-show="showDesk">{{result.news_desk}}</td>
+      				</tr>
+    			</tbody>
+  			</table>
+		</div>
+	</body>
+</html>
