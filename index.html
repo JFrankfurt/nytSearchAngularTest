@@ -46,15 +46,15 @@
 					class="advanced btn">Filter Your Results</span>
 					<div ng-hide="toggle"
 					class="options btn-group-vertical">
-						<span class="advanced btn">Date Published:</span>
-						<span class="advanced btn">News Desks:</span>
+						<span ng-model="showDate"
+						class="advanced btn">Date Published:</span>
+						<span ng-model="showDesk"
+						class="advanced btn">News Desks:</span>
 						<span class="advanced btn">Type:</span>
 						<span class="advanced btn" id="contains">Contains:</span>
 						<input type="text" class="form-control" id="filter">
 					</div>
 			</form>
-			<form name="DateFilter"></form>
-			<form name="DeskFilter"></form>
 			<form name="TypeFilter"></form>
 			<form name="ContainsFilter"></form>
 		</div>
@@ -63,7 +63,7 @@
 		<div class="panel panel-default">
   			<div class="panel-heading">Results:</div>
   			<!-- Table -->
-  			<table class="table table-bordered">
+  			<table class="table table-hover">
     			<thead>
       				<tr>
         				<th>
@@ -85,11 +85,15 @@
       				</tr>
     			</thead>
     			<tbody>
-      				<tr ng-repeat="result in results.docs|orderBy:orderByField:reverseSort">
+      				<tr ng-repeat-start="result in results.response.docs|orderBy:orderByField:reverseSort">
         			<td>{{$index + 1}}</td>
-        			<td>{{result.headline.main}}</td>
+        			<td><a ng-href="{{result.web_url}}">{{result.headline.main}}</a></td>
         			<td ng-show="showDate">{{result.pub_date}}</td>
         			<td ng-show="showDesk">{{result.news_desk}}</td>
+      				</tr>
+      				<tr ng-repeat-end>
+      					<td></td>
+      					<td>{{result.lead_paragraph}}</td>
       				</tr>
     			</tbody>
   			</table>
