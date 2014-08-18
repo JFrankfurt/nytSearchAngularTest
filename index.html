@@ -28,10 +28,10 @@
 			</div>
 
 			<!--Search form-->
-			<form role="form" name="newQueryForm">
+			<form role="form" name="newQueryForm" ng-submit="search()">
   				<div class="form-group" for="query">
      				<input type="searchterm" class="form-control"
-     					ng-model="query.q">
+     					ng-model="query.fq">
       				<span type="submit" class="btn"
       					ng-click="search()">Search</span>
   				</div>
@@ -41,46 +41,47 @@
 			Advanced Search filter options.
 			This still does nothing.
 			-->
-			<form class="searchFilter" ng-controller="MenuController">
+			<form class="searchFilter" ng-controller="ToggleController">
 					<span ng-click="toggleMenu()"
 					class="advanced btn">Filter Your Results</span>
 					<div ng-hide="toggle"
 					class="options btn-group-vertical">
-						<span ng-model="showDate"
+						<span ng-click="showDate"
 						class="advanced btn">Date Published:</span>
-						<span ng-model="showDesk"
+						<span ng-click="showDesk"
 						class="advanced btn">News Desks:</span>
 						<span class="advanced btn">Type:</span>
 						<span class="advanced btn" id="contains">Contains:</span>
 						<input type="text" class="form-control" id="filter">
 					</div>
 			</form>
-			<form name="TypeFilter"></form>
-			<form name="ContainsFilter"></form>
 		</div>
 
 		<!--Search results-->
 		<div class="panel panel-default">
-  			<div class="panel-heading">Results:</div>
+  			<div class="panel-heading">Results:
+			<dl>
+  				<dt>Ordered By:</dt>
+  				<dt>{{orderByField}}</dt>
+			</dl>
+  			</div>
   			<!-- Table -->
   			<table class="table table-hover">
     			<thead>
       				<tr>
         				<th>
-          				<a href="#" ng-click="orderByField='order'; reverseSort = !reverseSort">
-          				# <span ng-show="orderByField == 'order'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+          				<a href="" ng-click="orderByField='Result Number'; reverseSort = !reverseSort">
+          				#<span ng-show="orderByField == 'number'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
         				</th>
         				<th>
-          				<a href="#" ng-click="orderByField='title'; reverseSort = !reverseSort">
-            			Headline <span ng-show="orderByField == 'title'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+            			Headline
         				</th>
         				<th ng-show="showDate">
-          				<a href="#" ng-click="orderByField='pubDate'; reverseSort = !reverseSort">
-          				Date Published <span ng-show="orderByField == 'pubDate'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+          				Date Published <span ng-show="orderByField == 'Date Published'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
         				</th>
         				<th ng-show="showDesk">
-          				<a href="#" ng-click="orderByField='newsDesk'; reverseSort = !reverseSort">
-          				News Desk <span ng-show="orderByField == 'newsDesk'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+          				<a href="" ng-click="orderByField='News Desk'; reverseSort = !reverseSort">
+          				News Desk <span ng-show="orderByField == 'News Desk'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
         				</th>
       				</tr>
     			</thead>
@@ -94,6 +95,8 @@
       				<tr ng-repeat-end>
       					<td></td>
       					<td>{{result.lead_paragraph}}</td>
+      					<td></td>
+      					<td></td>
       				</tr>
     			</tbody>
   			</table>

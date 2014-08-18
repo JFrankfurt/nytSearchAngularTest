@@ -25,7 +25,6 @@
             makeRequest: _makeRequest
         };
     });
-
     nytSearch.controller('SearchController', function($scope, nytArticles) {
         $scope.query = {};
 
@@ -36,15 +35,20 @@
             });
         };
     });
-    nytSearch.controller('MenuController', function($scope) {
+    nytSearch.controller('ToggleController', function($scope) {
         $scope.toggle = true;
         $scope.toggleMenu = function() {
             $scope.toggle = $scope.toggle === false ? true : false;
         }
     });
     nytSearch.controller('FilterController', function($scope) {
-        $scope.orderByField = 'order';
+        $scope.orderByField = 'number';
         $scope.reverseSort = false;
+
+        $scope.filter = function() {
+            var string = JSON.stringify($scope.results.response.docs);
+
+        }
     });
     //This might turn into something.
     nytSearch.controller('FireController', function($scope, $firebase) {
