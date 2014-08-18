@@ -42,7 +42,7 @@
         }
     });
     nytSearch.controller('FilterController', function($scope) {
-        $scope.orderByField = 'number';
+        $scope.orderByField = 'Result Number';
         $scope.reverseSort = false;
 
         $scope.filter = function() {
