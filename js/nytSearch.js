@@ -5,7 +5,7 @@
     //Constant values to be injected
     //(not sure how to address the apiKey being included in client code...)
     nytSearch.constant('apiKey', '76715ca45e8b1b86017bab3a9d59d276:18:68083505');
-    nytSearch.constant('url', 'http://api.nytimes.com/svc/search/v2/articlesearch.json');
+    nytSearch.constant('url', '//api.nytimes.com/svc/search/v2/articlesearch.json');
 
     nytSearch.factory('nytArticles', function($http, apiKey, url) {
         function _makeRequest(query) {
@@ -41,15 +41,6 @@
         $scope.toggle = true;
         $scope.toggleMenu = function() {
             $scope.toggle = $scope.toggle === false ? true : false;
-        }
-    });
-    nytSearch.controller('FilterController', function($scope) {
-        $scope.orderByField = 'Result Number';
-        $scope.reverseSort = false;
-
-        $scope.filter = function() {
-            var string = JSON.stringify($scope.results.response.docs);
-
         }
     });
     //This might turn into something.
