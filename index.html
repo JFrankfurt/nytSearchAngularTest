@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="nytSearch">
+
 	<head>
 		<meta charset="utf-8">
 		<title>NYT Article Search</title>
@@ -12,13 +13,30 @@
 	</head>
 
 	<body ng-controller='SearchController'>
-
 		<!--header-->
 		<div class="well container">
 			<div class="daicon">
 				<img src="icon.png" alt="New York Times" class="img-circle">
 			</div>
-
+			<!--Login and saved articles controller-->
+			<div class="login"
+			ng-controller="LoginController">
+				<ul class="dropdown-menu pull-right" role="menu" ng-switch="user">
+    				<span ng-switch-when="true">
+      					<li>
+      						<a ng-click="logout()">Logout</a>
+      					</li>
+      					<li>
+      						<a ng-click="preferences()">Preferences</a>
+      					</li>
+    				</span>
+    				<span ng-switch-default>
+      					<li>
+      						<a ng-click="openLoginDialog()">Login</a>
+      					</li>
+    				</span>
+  				</ul>
+			</div>
 			<!--Search form-->
 			<form role="form" name="newQueryForm" ng-submit="search()">
   				<div class="form-group" for="query">
@@ -39,13 +57,27 @@
 					class="advanced btn">Filter Your Results</span>
 					<div ng-show="menuToggle"
 					class="options btn-group-vertical">
-						<span ng-click="showDate"
+						<span ng-click="dateToggle = !dateToggle"
 						class="advanced btn">Date Published:</span>
-						<span ng-click="showDesk"
+							<div ng-show="dateToggle"
+							class="datePicker">
+								
+							</div>
+						<span ng-click="deskToggle = !deskToggle"
 						class="advanced btn">News Desks:</span>
-						<span class="advanced btn">Type:</span>
-						<span class="advanced btn" id="contains">Contains:</span>
-						<input type="text" class="form-control" id="filter">
+							<div ng-show="deskToggle"
+							class="deskList">
+								
+							</div>
+						<span ng-click="typeToggle = !typeToggle"
+						class="advanced btn">Type:</span>
+							<div ng-show="typeToggle"
+							class="typeList">
+								
+							</div>
+						<span ng-click="contentToggle = !contentToggle"
+						class="advanced btn" id="contains">Contains:</span>
+						<input ng-show="contentToggle" type="text" class="form-control" id="filter">
 					</div>
 			</form>
 		</div>
@@ -60,21 +92,43 @@
   			</div>
   			<!-- Table -->
   			<table class="table table-hover">
-    			<thead>
+    			<thead ng-controller="ToggleController">
       				<tr>
         				<th>
-          				<a href="" ng-click="orderByField='Result Number'; reverseSort = !reverseSort">
-          				#<span ng-show="orderByField == 'number'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+          					<a href="" ng-click="orderByField = 'Result Number'; reverseSort = !reverseSort">
+          					#
+          						<span ng-show="orderByField == 'number'">
+          							<span ng-show="!reverseSort">^</span>
+          							<span ng-show="reverseSort">v</span>
+          						</span>
+          					</a>
         				</th>
         				<th>
             			Headline
         				</th>
-        				<th ng-show="showDate">
-          				Date Published <span ng-show="orderByField == 'Date Published'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+        				<th ng-show="dateToggle">
+        					<a href="" ng-click="orderByField = 'Date Published'; reverseSort = !reverseSort">
+          					Date Published
+          						<span ng-show="orderByField == 'Date Published'">
+          							<span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
         				</th>
-        				<th ng-show="showDesk">
-          				<a href="" ng-click="orderByField='News Desk'; reverseSort = !reverseSort">
-          				News Desk <span ng-show="orderByField == 'News Desk'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></a>
+        				<th ng-show="deskToggle">
+          					<a href="" ng-click="orderByField='News Desk'; reverseSort = !reverseSort">
+          					News Desk
+          						<span ng-show="orderByField == 'News Desk'">
+          							<span ng-show="!reverseSort">^</span>
+          							<span ng-show="reverseSort">v</span>
+          						</span>
+          					</a>
+        				</th>
+        				<th ng-show="typeToggle">
+        					<a href="" ng-click="orderByField = 'Type'; reverseSort = !reverseSort">
+        					Type
+        						<span ng-show="orderByField == 'Type'">
+        							<span ng-show="!reverseSort">^</span>
+        							<span ng-show="reverseSort">v</span>
+        						</span>
+        					</a>
         				</th>
       				</tr>
     			</thead>
@@ -82,8 +136,9 @@
       				<tr ng-repeat-start="result in results.response.docs|orderBy:orderByField:reverseSort">
         			<td>{{$index + 1}}</td>
         			<td><a ng-href="{{result.web_url}}">{{result.headline.main}}</a></td>
-        			<td ng-show="showDate">{{result.pub_date}}</td>
-        			<td ng-show="showDesk">{{result.news_desk}}</td>
+        			<td ng-show="dateToggle">{{result.pub_date}}</td>
+        			<td ng-show="deskToggle">{{result.news_desk}}</td>
+        			<td ng-show="typeToggle">{{result.type}}</td>
       				</tr>
       				<tr ng-repeat-end>
       					<td></td>

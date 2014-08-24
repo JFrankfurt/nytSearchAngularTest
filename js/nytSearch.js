@@ -35,8 +35,17 @@
             });
         };
     });
+    nytSearch.controller('LoginController', function($scope) {
+        $scope.openLoginDialog = function() {
+
+        }
+    })
     nytSearch.controller('ToggleController', function($scope) {
         $scope.menuToggle = false;
+        $scope.dateToggle = false;
+        $scope.deskToggle = false;
+        $scope.typeToggle = false;
+        $scope.contentToggle = false;
     });
     //This might turn into something.
     nytSearch.controller('FireController', function($scope, $firebase) {
