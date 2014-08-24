@@ -36,12 +36,7 @@
         };
     });
     nytSearch.controller('ToggleController', function($scope) {
-        //Does this count as DOM manipulation in a controller?
-        //Consider moving to a service.
-        $scope.toggle = true;
-        $scope.toggleMenu = function() {
-            $scope.toggle = $scope.toggle === false ? true : false;
-        }
+        $scope.menuToggle = false;
     });
     //This might turn into something.
     nytSearch.controller('FireController', function($scope, $firebase) {

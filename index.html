@@ -35,9 +35,9 @@
 			-->
 			<form class="searchFilter"
 			ng-controller="ToggleController">
-					<span ng-click="toggleMenu()"
+					<span ng-click="menuToggle = !menuToggle"
 					class="advanced btn">Filter Your Results</span>
-					<div ng-hide="toggle"
+					<div ng-show="menuToggle"
 					class="options btn-group-vertical">
 						<span ng-click="showDate"
 						class="advanced btn">Date Published:</span>
