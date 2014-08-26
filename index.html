@@ -94,7 +94,7 @@
   			<table class="table table-hover">
     			<thead ng-controller="ToggleController">
       				<tr>
-        				<th>
+        				<th ng-show="results">
           					<a href="" ng-click="orderByField = 'Result Number'; reverseSort = !reverseSort">
           					#
           						<span ng-show="orderByField == 'number'">
@@ -103,7 +103,7 @@
           						</span>
           					</a>
         				</th>
-        				<th>
+        				<th ng-show="results">
             			Headline
         				</th>
         				<th ng-show="dateToggle">

@@ -47,11 +47,11 @@
         $scope.typeToggle = false;
         $scope.contentToggle = false;
     });
-    //This might turn into something.
-    nytSearch.controller('FireController', function($scope, $firebase) {
-        var ref = new Firebase("https://neonytsearch.firebaseio.com/");
-        var sync = $firebase(ref);
-    });
+    // //This might turn into something.
+    // nytSearch.controller('FireController', function($scope, $firebase) {
+    //     var ref = new Firebase("https://neonytsearch.firebaseio.com/");
+    //     var sync = $firebase(ref);
+    // });
 })();
 /*
 nytSearch.controller('SearchController', ['$scope', '$timeout', 'nytService',
